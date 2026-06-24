@@ -44,7 +44,7 @@ def get_llm(
         if structured:
             # Native JSON mode — Gemini's structured-output enforcement.
             # Use together with .with_structured_output(MyModel) on the model.
-            kwargs["model_kwargs"] = {"response_mime_type": "application/json"}
+            kwargs["response_mime_type"] = "application/json"
         return ChatGoogleGenerativeAI(**kwargs)
 
     if provider == "groq":
