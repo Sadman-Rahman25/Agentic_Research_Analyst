@@ -1,0 +1,74 @@
+{
+  "queries": [
+    {
+      "id": "q1",
+      "category": "ml_research",
+      "query": "What are the latest techniques for sparse retrieval in RAG systems in 2025-2026?",
+      "expected_sources": ["arxiv", "web"],
+      "notes": "Tests arxiv researcher + recent web content. Should surface SPLADE descendants, learned sparse retrieval."
+    },
+    {
+      "id": "q2",
+      "category": "ml_research",
+      "query": "How do modern multi-agent LLM systems handle disagreement between agents?",
+      "expected_sources": ["arxiv", "web"],
+      "notes": "Meta-relevant to this project. Tests planner's ability to decompose abstract questions."
+    },
+    {
+      "id": "q3",
+      "category": "technical_comparison",
+      "query": "Compare LangGraph, CrewAI, and AutoGen for building production agent systems.",
+      "expected_sources": ["web", "github"],
+      "notes": "Tests github researcher (repos) + web researcher (blogs)."
+    },
+    {
+      "id": "q4",
+      "category": "technical_implementation",
+      "query": "What are the best practices for hybrid BM25 + dense retrieval fusion in 2026?",
+      "expected_sources": ["arxiv", "github", "web"],
+      "notes": "Tests all three researchers. Maps to your own arxiv-graphrag work — useful sanity check."
+    },
+    {
+      "id": "q5",
+      "category": "business",
+      "query": "What is the current state of the AI infrastructure market and who are the dominant players?",
+      "expected_sources": ["web"],
+      "notes": "Tests web researcher under tight recency requirements. No arxiv expected."
+    },
+    {
+      "id": "q6",
+      "category": "history",
+      "query": "How did the transformer architecture evolve from the original 2017 paper to modern LLMs?",
+      "expected_sources": ["arxiv", "web"],
+      "notes": "Tests handling of mixed-temporal queries (historical + current). Pure arxiv-heavy."
+    },
+    {
+      "id": "q7",
+      "category": "regional_ml",
+      "query": "What are the current capabilities and limitations of Bangla language LLMs?",
+      "expected_sources": ["arxiv", "github", "web"],
+      "notes": "Niche topic — tests planner's handling when canonical sources are scarce. Maps to your Bangla NLP background."
+    },
+    {
+      "id": "q8",
+      "category": "technical_comparison",
+      "query": "How does Gemini 2.5 Flash compare to Llama-3.3-70B for structured output tasks?",
+      "expected_sources": ["web", "github"],
+      "notes": "Tests freshness + benchmarks. Project-relevant — informs your own provider choice."
+    },
+    {
+      "id": "q9",
+      "category": "implementation",
+      "query": "What are the most common failure modes when deploying LangGraph agents to production?",
+      "expected_sources": ["github", "web"],
+      "notes": "Tests github issue search + blog posts. Synthesizer should distinguish anecdote from pattern."
+    },
+    {
+      "id": "q10",
+      "category": "open_question",
+      "query": "What are the open research problems in evaluating multi-step reasoning in LLMs?",
+      "expected_sources": ["arxiv", "web"],
+      "notes": "Open-ended — tests writer's ability to handle 'gaps' section. Verifier should NOT flag known unknowns as unsupported."
+    }
+  ]
+}
