@@ -14,6 +14,11 @@ DESIGN NOTES:
 - Deterministic-ish: low temperature (0.2). Plans don't benefit from creativity.
 - Defensive: overwrite `user_query` in the output to guarantee it matches
   the input exactly (Gemini occasionally paraphrases it).
+
+RESILIENCE:
+- Primary: 70B (better structured-output reliability).
+- Fallback: 8B (used only when 70B is rate-limited / TPD-exhausted).
+- 8B plans are noticeably weaker but degraded > crashed.
 """
 
 from __future__ import annotations
@@ -23,7 +28,7 @@ from typing import Final
 
 from langchain_core.messages import HumanMessage, SystemMessage
 
-from src.config import PROJECT_ROOT, TRACE_DIR
+from src.config import GROQ_FAST_MODEL, PROJECT_ROOT, TRACE_DIR
 from src.llm import get_llm
 from src.schemas import ResearchPlan
 
@@ -31,10 +36,6 @@ from src.schemas import ResearchPlan
 # ---------------------------------------------------------------------------
 # System prompt
 # ---------------------------------------------------------------------------
-# This is the most important artifact in this module. Iterate it based on
-# what you see in the Day 1 manual eval. Keep the "BAD PATTERNS TO AVOID"
-# section — it does the heavy lifting against common Gemini failure modes
-# (vague questions, compound questions, over-tagging arxiv).
 
 PLANNER_SYSTEM_PROMPT: Final[str] = """\
 You are a research planner. Decompose the user's research question into a \
@@ -122,6 +123,8 @@ Return ONLY the structured ResearchPlan. No prose, no commentary.\
 def plan(user_query: str, max_sub_questions: int = 7) -> ResearchPlan:
     """Generate a ResearchPlan for the given user query.
 
+    Tries 70B first. On rate-limit failure, falls back to 8B with a warning.
+
     Args:
         user_query: The research question to decompose.
         max_sub_questions: Upper bound on sub-questions. The model can return
@@ -132,28 +135,42 @@ def plan(user_query: str, max_sub_questions: int = 7) -> ResearchPlan:
 
     Raises:
         ValueError: If user_query is empty or whitespace.
-        RuntimeError: If the LLM call fails or returns an unexpected type.
+        RuntimeError: If both 70B and 8B fallback fail.
     """
     if not user_query.strip():
         raise ValueError("user_query must not be empty")
 
-    llm = get_llm(
-        provider="groq",
-        structured=True,
-        temperature=0.2,
-    )
-    structured_llm = llm.with_structured_output(ResearchPlan)
     system = PLANNER_SYSTEM_PROMPT.format(max_sub_questions=max_sub_questions)
+    messages = [
+        SystemMessage(content=system),
+        HumanMessage(content=user_query),
+    ]
 
-    try:
-        result = structured_llm.invoke(
-            [
-                SystemMessage(content=system),
-                HumanMessage(content=user_query),
-            ]
+    def _invoke(use_fast: bool) -> ResearchPlan:
+        llm = get_llm(
+            provider="groq",
+            structured=True,
+            temperature=0.2,
+            model_override=GROQ_FAST_MODEL if use_fast else None,
         )
-    except Exception as e:
-        raise RuntimeError(f"Planner LLM call failed: {e}") from e
+        structured_llm = llm.with_structured_output(ResearchPlan)
+        return structured_llm.invoke(messages)
+
+    # Primary attempt: 70B
+    try:
+        result = _invoke(use_fast=False)
+    except Exception as primary_error:  # noqa: BLE001
+        primary_msg = str(primary_error)
+        if "rate_limit" in primary_msg.lower() or "429" in primary_msg:
+            print(f"  [planner] WARN: 70B rate-limited, falling back to 8B: {primary_error}")
+            try:
+                result = _invoke(use_fast=True)
+            except Exception as fallback_error:  # noqa: BLE001
+                raise RuntimeError(
+                    f"Planner failed on both 70B and 8B: {fallback_error}"
+                ) from fallback_error
+        else:
+            raise RuntimeError(f"Planner LLM call failed: {primary_error}") from primary_error
 
     if not isinstance(result, ResearchPlan):
         raise RuntimeError(
@@ -197,7 +214,7 @@ def _run_eval() -> None:
             p = plan(q["query"])
             _pretty_print_plan(p)
             results.append({"id": q["id"], "plan": p.model_dump()})
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             print(f"  FAILED: {e}")
             results.append({"id": q["id"], "error": str(e)})
         print("-" * 78)
