@@ -11,7 +11,7 @@ from typing import Literal
 
 from langchain_core.language_models import BaseChatModel
 
-from src.config import GEMINI_API_KEY, GEMINI_MODEL, GROQ_API_KEY, GROQ_MODEL
+from src.config import GEMINI_API_KEY, GEMINI_MODEL, GROQ_API_KEY, GROQ_FAST_MODEL, GROQ_MODEL
 
 Provider = Literal["gemini", "groq"]
 
@@ -21,6 +21,7 @@ def get_llm(
     *,
     structured: bool = True,
     temperature: float = 0.2,
+    model_override: str | None = None,
 ) -> BaseChatModel:
     """Return a chat model configured for the requested provider.
 
@@ -53,8 +54,11 @@ def get_llm(
         if not GROQ_API_KEY:
             raise RuntimeError("GROQ_API_KEY not set. Check .env.")
 
+        # Allow per-agent model override; default to the strong model.
+        model_name = model_override or GROQ_MODEL
+
         return ChatGroq(
-            model=GROQ_MODEL,
+            model=model_name,
             temperature=temperature,
             api_key=GROQ_API_KEY,
         )

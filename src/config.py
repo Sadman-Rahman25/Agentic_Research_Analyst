@@ -26,6 +26,7 @@ LANGSMITH_PROJECT: str = os.getenv("LANGSMITH_PROJECT", "agentic-research-analys
 # --- Models ---
 GEMINI_MODEL: str = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
 GROQ_MODEL: str = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
+GROQ_FAST_MODEL: str = os.getenv("GROQ_FAST_MODEL", "llama-3.1-8b-instant")
 DEFAULT_LLM_PROVIDER: str = os.getenv("DEFAULT_LLM_PROVIDER", "gemini")
 
 # --- Rate limiting ---

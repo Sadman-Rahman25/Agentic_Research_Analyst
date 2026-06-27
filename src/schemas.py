@@ -32,7 +32,7 @@ class SubQuestion(BaseModel):
 class ResearchPlan(BaseModel):
     """The full research plan emitted by the Planner."""
 
-    user_query: str
+    user_query: str = ""  # Always overwritten in plan(); the LLM may omit it
     sub_questions: list[SubQuestion]
     expected_report_sections: list[str] = Field(
         description="The Writer will use these as section headers."

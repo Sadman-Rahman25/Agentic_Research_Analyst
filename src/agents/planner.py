@@ -137,7 +137,11 @@ def plan(user_query: str, max_sub_questions: int = 7) -> ResearchPlan:
     if not user_query.strip():
         raise ValueError("user_query must not be empty")
 
-    llm = get_llm(provider="groq", structured=True, temperature=0.2)
+    llm = get_llm(
+        provider="groq",
+        structured=True,
+        temperature=0.2,
+    )
     structured_llm = llm.with_structured_output(ResearchPlan)
     system = PLANNER_SYSTEM_PROMPT.format(max_sub_questions=max_sub_questions)
 
