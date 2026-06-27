@@ -1,19 +1,14 @@
 """src/pipeline.py
 
-End-to-end pipeline: query → plan → search → synthesize → write.
-
-This is the integration point for Day 3. Run as:
-    python -m src.pipeline
-
-The output is a markdown report per query, saved to examples/ and printed
-to stdout. The Verifier (Day 4) plugs into the END of this pipeline.
+End-to-end pipeline driver. Wraps the LangGraph from src/graph.py with
+a CLI for single-query and batch-eval modes.
 
 USAGE:
-    # Run on all 10 eval queries (cached search results — cheap)
-    python -m src.pipeline
-
-    # Run on one query (good for prompt iteration)
+    # Run on a single query
     python -m src.pipeline --query "your question here"
+
+    # Run on all 10 eval queries (saves reports to examples/)
+    python -m src.pipeline
 """
 
 from __future__ import annotations
@@ -24,59 +19,63 @@ import json
 import time
 from pathlib import Path
 
-from src.agents.planner import plan as planner_plan
-from src.agents.synthesizer import synthesize_all
-from src.agents.writer import write_report
 from src.config import PROJECT_ROOT, TRACE_DIR
-from src.orchestrator import gather_results
-from src.schemas import Finding, ResearchPlan
+from src.graph import build_graph
+from src.schemas import Finding, ResearchPlan, VerificationResult
 
 
-async def run_pipeline(user_query: str) -> tuple[ResearchPlan, list[Finding], str, dict]:
-    """Run the full pipeline. Returns (plan, findings, markdown_report, timings)."""
-    timings: dict[str, float] = {}
-
-    t0 = time.perf_counter()
-    plan_obj = planner_plan(user_query)
-    timings["plan"] = time.perf_counter() - t0
-
-    t0 = time.perf_counter()
-    results = await gather_results(plan_obj)
-    timings["search"] = time.perf_counter() - t0
-
-    t0 = time.perf_counter()
-    findings = await synthesize_all(plan_obj.sub_questions, results)
-    timings["synthesize"] = time.perf_counter() - t0
-
-    t0 = time.perf_counter()
-    report = write_report(plan_obj, findings)
-    timings["write"] = time.perf_counter() - t0
-
-    timings["total"] = sum(timings.values())
-    return plan_obj, findings, report, timings
+# Compile the graph once at module load — building it per-query is wasteful.
+_APP = build_graph()
 
 
-def _print_summary(query: str, findings: list[Finding], timings: dict) -> None:
-    """One-liner per stage for terminal readability."""
+async def run_pipeline(user_query: str) -> dict:
+    """Run the full graph on one query. Returns the final state dict.
+
+    Final state has keys: plan, results_by_sq, findings, report_md,
+    verification, timings, errors.
+    """
+    result = await _APP.ainvoke({"user_query": user_query})
+    return result
+
+
+def _print_summary(state: dict) -> None:
+    """One-block-per-stage summary for terminal readability."""
+    timings = state.get("timings", {})
+    findings = state.get("findings", []) or []
+    verification = state.get("verification")
+    errors = state.get("errors", []) or []
+
     print(f"\n{'=' * 78}")
-    print(f"QUERY: {query}")
+    print(f"QUERY: {state.get('user_query', '?')}")
     print(f"{'-' * 78}")
-    print(f"  Plan:       {timings['plan']:5.2f}s")
-    print(f"  Search:     {timings['search']:5.2f}s")
-    print(f"  Synthesize: {timings['synthesize']:5.2f}s   ({len(findings)} findings)")
-    print(f"  Write:      {timings['write']:5.2f}s")
-    print(f"  TOTAL:      {timings['total']:5.2f}s")
+    for stage in ("plan", "search", "synthesize", "write", "verify"):
+        if stage in timings:
+            print(f"  {stage:11s}{timings[stage]:6.2f}s")
+    if findings:
+        print(f"  findings:   {len(findings)}")
+    if isinstance(verification, VerificationResult):
+        print(
+            f"  grounding:  {verification.overall_grounding_score:.0%} "
+            f"({verification.verified}/{verification.total_claims} verified, "
+            f"{len(verification.flagged)} flagged)"
+        )
+    total = sum(timings.values()) if timings else 0
+    print(f"  TOTAL:      {total:6.2f}s")
+    if errors:
+        print(f"  ERRORS:")
+        for e in errors:
+            print(f"    - {e}")
     print(f"{'=' * 78}\n")
 
 
 async def _run_single(query: str) -> None:
-    plan_obj, findings, report, timings = await run_pipeline(query)
-    _print_summary(query, findings, timings)
-    print(report)
+    state = await run_pipeline(query)
+    _print_summary(state)
+    print(state.get("report_md", "(no report produced)"))
 
 
 async def _run_eval() -> None:
-    """Run pipeline on all 10 eval queries, save reports to examples/."""
+    """Run pipeline on all 10 eval queries, save reports + log to JSONL."""
     queries_path = PROJECT_ROOT / "tests" / "test_queries.json"
     with open(queries_path, "r", encoding="utf-8") as f:
         data = json.load(f)
@@ -90,20 +89,33 @@ async def _run_eval() -> None:
     for i, q in enumerate(data["queries"], 1):
         print(f"\n[{i}/{len(data['queries'])}] {q['id']}: {q['query']}")
         try:
-            plan_obj, findings, report, timings = await run_pipeline(q["query"])
-            _print_summary(q["query"], findings, timings)
+            state = await run_pipeline(q["query"])
+            _print_summary(state)
 
+            report = state.get("report_md", "")
             out_path = examples_dir / f"{q['id']}.md"
             with open(out_path, "w", encoding="utf-8") as f:
                 f.write(report)
-            print(f"Report saved: {out_path}")
+            print(f"  Report saved: {out_path}")
 
+            verification = state.get("verification")
             eval_log.append(
                 {
                     "query_id": q["id"],
                     "user_query": q["query"],
-                    "n_findings": len(findings),
-                    "timings": timings,
+                    "n_findings": len(state.get("findings", []) or []),
+                    "timings": state.get("timings", {}),
+                    "grounding_score": (
+                        verification.overall_grounding_score
+                        if isinstance(verification, VerificationResult)
+                        else None
+                    ),
+                    "n_flagged": (
+                        len(verification.flagged)
+                        if isinstance(verification, VerificationResult)
+                        else None
+                    ),
+                    "errors": state.get("errors", []) or [],
                     "report_path": str(out_path.relative_to(PROJECT_ROOT)),
                 }
             )
@@ -121,8 +133,14 @@ async def _run_eval() -> None:
     print(f"\nPipeline eval complete. {grand_total:.1f}s total.")
     print(f"Success: {len(succeeded)}/{len(eval_log)}")
     if succeeded:
-        avg = sum(r["timings"]["total"] for r in succeeded) / len(succeeded)
-        print(f"Average end-to-end per query: {avg:.2f}s")
+        valid_timings = [r for r in succeeded if r["timings"]]
+        if valid_timings:
+            avg = sum(sum(r["timings"].values()) for r in valid_timings) / len(valid_timings)
+            print(f"Average end-to-end per query: {avg:.2f}s")
+        scored = [r for r in succeeded if r.get("grounding_score") is not None]
+        if scored:
+            avg_score = sum(r["grounding_score"] for r in scored) / len(scored)
+            print(f"Average grounding score: {avg_score:.0%}")
     print(f"Log: {log_path}")
 
 
