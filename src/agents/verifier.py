@@ -50,7 +50,7 @@ from src.schemas import Finding, FlaggedClaim, VerificationResult
 # ---------------------------------------------------------------------------
 
 _SEMAPHORE = asyncio.Semaphore(2)
-_INTER_CALL_DELAY = 0.4
+_INTER_CALL_DELAY = 1.0
 
 
 # ---------------------------------------------------------------------------

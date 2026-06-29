@@ -110,10 +110,19 @@ async def _run_eval() -> None:
                         if isinstance(verification, VerificationResult)
                         else None
                     ),
+                    "total_claims": (
+                        verification.total_claims
+                        if isinstance(verification, VerificationResult)
+                        else None
+                    ),
                     "n_flagged": (
                         len(verification.flagged)
                         if isinstance(verification, VerificationResult)
                         else None
+                    ),
+                    "is_stub": (
+                        isinstance(verification, VerificationResult)
+                        and verification.total_claims == 0
                     ),
                     "errors": state.get("errors", []) or [],
                     "report_path": str(out_path.relative_to(PROJECT_ROOT)),
@@ -137,10 +146,18 @@ async def _run_eval() -> None:
         if valid_timings:
             avg = sum(sum(r["timings"].values()) for r in valid_timings) / len(valid_timings)
             print(f"Average end-to-end per query: {avg:.2f}s")
-        scored = [r for r in succeeded if r.get("grounding_score") is not None]
+        # Exclude stub reports (no checkable claims → vacuous 100%) from the average
+        scored = [
+            r for r in succeeded
+            if r.get("grounding_score") is not None
+            and r.get("total_claims", 0) > 0
+        ]
+        stub_count = sum(1 for r in succeeded if r.get("is_stub"))
         if scored:
             avg_score = sum(r["grounding_score"] for r in scored) / len(scored)
-            print(f"Average grounding score: {avg_score:.0%}")
+            print(f"Average grounding score: {avg_score:.0%} ({len(scored)} reports with checkable claims)")
+            if stub_count:
+                print(f"  Note: {stub_count} stub report(s) excluded from grounding average")
     print(f"Log: {log_path}")
 
 
