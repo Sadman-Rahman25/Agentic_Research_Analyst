@@ -2,27 +2,17 @@
 langgraph>=0.2.50
 langchain-core>=0.3.0
 
-# --- LLM providers ---
-# Primary: Gemini 2.5 Flash (free tier, 1M context, native JSON mode)
-langchain-google-genai>=2.0.0
-google-generativeai>=0.8.0
-
-# Fallback: Groq Llama-3.3-70B (used selectively for the Synthesizer)
+# --- LLM provider (Groq for both 70B primary and 8B fallback) ---
 langchain-groq>=0.2.0
 groq>=0.11.0
 
 # --- Structured outputs ---
 pydantic>=2.5.0
-# Kept as backup if Gemini native JSON mode struggles on complex schemas
-instructor>=1.5.0
 
 # --- Researcher tools ---
 tavily-python>=0.5.0
 arxiv>=2.1.0
 PyGithub>=2.4.0
-
-# --- arXiv PDF extraction ---
-PyMuPDF>=1.24.0
 
 # --- Caching, env, async helpers ---
 diskcache>=5.6.0
