@@ -1,15 +1,3 @@
----
-title: Agentic Research Analyst
-emoji: microscope
-colorFrom: red
-colorTo: pink
-sdk: streamlit
-sdk_version: 1.40.0
-app_file: app.py
-pinned: false
-license: mit
-short_description: 5-agent LangGraph pipeline with grounding score
----
 # Agentic Research Analyst
 
 A 5-agent LangGraph pipeline that produces citation-grounded research reports from a single natural-language question. Every claim in the output carries an inline `[N]` citation, and every citation is verified against its source with a machine-readable grounding score.
