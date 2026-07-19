@@ -737,7 +737,7 @@ else:
         if report_md:
             st.markdown('<div style="margin-top: 6px;"></div>', unsafe_allow_html=True)
             st.download_button(
-                "⬇  Download report",
+                "⬇  Download report (.md)",
                 data=report_md,
                 file_name=f"{slugify(user_query)}.md",
                 mime="text/markdown",
