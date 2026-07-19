@@ -1,6 +1,6 @@
 ---
 title: Agentic Research Analyst
-emoji: 🔬
+emoji: microscope
 colorFrom: red
 colorTo: pink
 sdk: streamlit
