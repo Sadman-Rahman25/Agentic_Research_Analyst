@@ -1,4 +1,4 @@
-﻿"""src/agents/synthesizer.py
+"""src/agents/synthesizer.py
 
 The Synthesizer: free-form text output on Groq 8B, parsed with regex.
 """
@@ -16,8 +16,13 @@ from src.llm import get_llm
 from src.schemas import Finding, SearchResult, SubQuestion
 
 
-_SEMAPHORE = asyncio.Semaphore(2)
+# NOTE: no module-level asyncio.Semaphore.
+# The Semaphore is created inside synthesize_all() so it binds to whatever
+# event loop is running that call. A module-level Semaphore binds to the FIRST
+# loop that touches it, then breaks with "bound to a different event loop"
+# errors when a fresh loop (e.g. every Streamlit rerun) tries to use it.
 _INTER_CALL_DELAY = 0.5
+_MAX_CONCURRENT_LLM_CALLS = 2
 
 
 SYNTHESIZER_SYSTEM_PROMPT: Final[str] = """\
@@ -180,8 +185,9 @@ async def _synthesize_one_async(
     sub_question: SubQuestion,
     results: list[SearchResult],
     model_override: str | None,
+    sem: asyncio.Semaphore,
 ) -> list[Finding]:
-    async with _SEMAPHORE:
+    async with sem:
         findings = await asyncio.to_thread(
             _synthesize_sync, sub_question, results, model_override
         )
@@ -195,8 +201,11 @@ async def synthesize_all(
     *,
     model_override: str | None = None,
 ) -> list[Finding]:
+    # Create the semaphore inside the coroutine so it binds to the running loop.
+    # See the note near the top of this file for why this must not be module-scope.
+    sem = asyncio.Semaphore(_MAX_CONCURRENT_LLM_CALLS)
     tasks = [
-        _synthesize_one_async(sq, results_by_sq.get(sq.id, []), model_override)
+        _synthesize_one_async(sq, results_by_sq.get(sq.id, []), model_override, sem)
         for sq in sub_questions
     ]
     findings_per_sq = await asyncio.gather(*tasks)

@@ -28,7 +28,7 @@ CONCURRENCY: claims-per-report is typically 8-15. We use a semaphore (max 2
 in-flight) and small inter-call sleep to stay under Groq TPM caps. Reuse
 the patterns from the Synthesizer.
 
-RESILIENCE: 70B → 8B fallback on rate limit, identical to Planner/Writer.
+RESILIENCE: 70B -> 8B fallback on rate limit, identical to Planner/Writer.
 """
 
 from __future__ import annotations
@@ -49,8 +49,13 @@ from src.schemas import Finding, FlaggedClaim, VerificationResult
 # Concurrency control
 # ---------------------------------------------------------------------------
 
-_SEMAPHORE = asyncio.Semaphore(2)
+# NOTE: no module-level asyncio.Semaphore.
+# The Semaphore is created inside verify_report() so it binds to whatever
+# event loop is running that call. A module-level Semaphore binds to the FIRST
+# loop that touches it, then breaks with "bound to a different event loop"
+# errors when a fresh loop (e.g. every Streamlit rerun) tries to use it.
 _INTER_CALL_DELAY = 1.0
+_MAX_CONCURRENT_LLM_CALLS = 2
 
 
 # ---------------------------------------------------------------------------
@@ -90,12 +95,12 @@ def _extract_claims(report_md: str) -> list[tuple[str, list[int]]]:
     """Pull (claim_text, [finding_numbers]) tuples out of the markdown report.
 
     Only claims with at least one citation are returned. Uncited prose
-    (section headers, intros, the References list) is ignored — the Writer's
+    (section headers, intros, the References list) is ignored - the Writer's
     rule is "every factual claim must be cited", so uncited text is by
     definition not a factual claim the Verifier needs to check.
     """
     out: list[tuple[str, list[int]]] = []
-    # Strip the References section — those lines contain [N] but aren't claims.
+    # Strip the References section - those lines contain [N] but aren't claims.
     body = report_md.split("## References")[0]
     body = body.split("# References")[0]
 
@@ -134,7 +139,7 @@ VERDICTS (pick exactly one):
 - "unsupported": The finding(s) do not address the claim at all, or the
   source quote is irrelevant to what the claim says.
 
-- "contradicted": The finding(s) directly contradict the claim. Rare — use
+- "contradicted": The finding(s) directly contradict the claim. Rare - use
   only when the source actually says the opposite.
 
 CRITICAL RULES:
@@ -147,7 +152,7 @@ CRITICAL RULES:
 3. If the claim is unverifiable from the provided findings (e.g., it cites
    findings that don't actually relate to it), mark "unsupported".
 4. Your EXPLANATION must reference what the source quote actually says.
-   Don't just restate the verdict — explain WHY in one sentence.
+   Don't just restate the verdict - explain WHY in one sentence.
 
 OUTPUT: A JSON object with `verdict` and `explanation` fields. No prose.\
 """
@@ -229,9 +234,10 @@ async def _verify_one_claim_async(
     claim_text: str,
     cited_findings: list[Finding],
     model_override: str | None,
+    sem: asyncio.Semaphore,
 ) -> tuple[str, list[Finding], _ClaimVerdict]:
     """Verify one claim under semaphore + pacing."""
-    async with _SEMAPHORE:
+    async with sem:
         verdict = await asyncio.to_thread(
             _verify_one_claim_sync, claim_text, cited_findings, model_override
         )
@@ -270,12 +276,16 @@ async def verify_report(
             overall_grounding_score=1.0,  # vacuously perfect
         )
 
-    # Build the claim → findings mapping. Out-of-range citations get []
+    # Create the semaphore inside the coroutine so it binds to the running loop.
+    # See the note near the top of this file for why this must not be module-scope.
+    sem = asyncio.Semaphore(_MAX_CONCURRENT_LLM_CALLS)
+
+    # Build the claim -> findings mapping. Out-of-range citations get []
     # which produces an "unsupported" verdict downstream.
     tasks = []
     for claim_text, cite_nums in claims:
         cited = [findings[n - 1] for n in cite_nums if 1 <= n <= len(findings)]
-        tasks.append(_verify_one_claim_async(claim_text, cited, model_override))
+        tasks.append(_verify_one_claim_async(claim_text, cited, model_override, sem))
 
     triples = await asyncio.gather(*tasks)
 
