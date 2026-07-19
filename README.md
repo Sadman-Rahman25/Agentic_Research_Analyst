@@ -157,9 +157,6 @@ python -m src.pipeline
 
 ---
 
-## What I would build next
-
-An MLOps portfolio project applying the same "measurable output quality" discipline: XGBoost churn model -> MLflow -> FastAPI -> Docker -> Evidently AI drift monitoring -> GitHub Actions CI/CD. The grounding-score-as-metric idea here maps directly to model-drift monitoring there.
 
 ---
 
