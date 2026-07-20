@@ -2,7 +2,9 @@
 
 A 5-agent LangGraph pipeline that produces citation-grounded research reports from a single natural-language question. Every claim in the output carries an inline `[N]` citation, and every citation is verified against its source with a machine-readable grounding score.
 
-**Live demo:** *coming soon on HuggingFace Spaces*
+**Live app:** [agentic0research-analyst.streamlit.app](https://agentic0research-analyst.streamlit.app) (interactive - run your own queries)
+
+**Static showcase:** [25Sad/agentic-research-analyst-showcase](https://huggingface.co/spaces/25Sad/agentic-research-analyst-showcase) (browse 10 pre-computed evaluation reports)
 
 **Stack:** LangGraph, Groq (Llama-3.3-70B + Llama-3.1-8B), Tavily, arXiv, GitHub, Streamlit
 
