@@ -1,0 +1,480 @@
+{
+  "queries": [
+    {
+      "id": "q1",
+      "query_text": "What are the latest techniques for sparse retrieval in RAG systems in 2025-2026?",
+      "outcome": "verified",
+      "grounding_score": 76,
+      "verified": 16,
+      "flagged_count": 4,
+      "total_claims": 20,
+      "wall_clock_seconds": 67.36925890017301,
+      "sub_questions": [
+        {
+          "source": "web",
+          "priority": 1,
+          "question": "What is sparse retrieval and how does it differ from dense retrieval in RAG systems?"
+        },
+        {
+          "source": "arxiv",
+          "priority": 1,
+          "question": "What sparse retrieval methods have been published on arXiv in 2024-2025 for RAG systems?"
+        },
+        {
+          "source": "arxiv",
+          "priority": 2,
+          "question": "How do learned sparse retrievers compare to BM25 on standard RAG benchmarks?"
+        },
+        {
+          "source": "github",
+          "priority": 2,
+          "question": "Which open-source implementations of sparse retrieval are most widely used in RAG systems?"
+        },
+        {
+          "source": "web",
+          "priority": 3,
+          "question": "What are known limitations of sparse retrieval in production RAG deployments?"
+        }
+      ],
+      "timings": {
+        "plan": 7.257558600045741,
+        "search": 3.233079500030726,
+        "synthesize": 18.91747420001775,
+        "write": 3.584682600107044,
+        "verify": 34.37646399997175
+      },
+      "findings": [],
+      "report_md": "## TL;DR\nThe latest techniques for sparse retrieval in RAG systems in 2025-2026 involve using term-based weighting for keyword search [2], representing text as high-dimensional vectors where most dimensions are zero [3], and utilizing algorithms such as TF-IDF or BM25 [5]. However, no sparse retrieval methods for RAG systems have been published on arXiv in 2024-2026 [7][8][9][10][11]. Hybrid search approaches, combining dense and sparse retrieval methods, are also being explored [14][15][16].\n\n## Background\nSparse retrieval uses term-based weighting for keyword search [2], whereas dense retrieval uses vector embeddings for semantic search [1]. Sparse retrieval methods, like TF-IDF or BM25, represent text as high-dimensional vectors where most dimensions are zero, encoding the presence or absence of specific words [3]. In contrast, dense retrieval encodes queries and documents into dense vectors (768–1536 dimensions) and ranks results using semantic similarity [1][4].\n\n## Key Findings\nSPLADE achieves state-of-the-art zero-shot performance on TREC benchmarks [12]. BM25 and BM25F are considered state-of-the-art in the IR community [13]. Hybrid sparse retrieval implementations, such as the Hybrid-Agentic-RAG-using-semantic-search-and-BM25 system, combine dense semantic search with sparse BM25 retrieval [14]. Other hybrid approaches, like the hybrid-rag-project system, combine semantic and keyword search for optimal document retrieval [15]. Qdrant is also used in hybrid sparse retrieval implementations, such as the bge-m3-qdrant-sample system [16]. However, no retrieval method is universally best for production RAG deployments [17], and hybrid search adds compute and tuning overhead [18]. Additionally, chunking must be re-evaluated in production RAG deployments [19], and sparse algorithms have limitations in handling fuzzy queries, particularly in large datasets [20].\n\n## Open Questions / Gaps\nThe search for sparse retrieval methods for RAG systems in 2025-2026 is ongoing, but no methods have been published on arXiv in 2024-2026 [7][8][9][10][11]. Further research is needed to explore the effectiveness of hybrid search approaches and to address the limitations of sparse algorithms in handling fuzzy queries.\n\n## Implementation Notes\nWhen implementing sparse retrieval in RAG systems, it is essential to consider the trade-offs between dense and sparse retrieval methods. Hybrid search approaches can offer improved performance, but they also add compute and tuning overhead [18]. Additionally, chunking must be re-evaluated to ensure optimal performance [19].\n\n## References\n1. https://searchatlas.com/blog/dense-vs-sparse-retrieval — Search Atlas\n2. https://searchatlas.com/blog/dense-vs-sparse-retrieval — Search Atlas\n3. https://milvus.io/ai-quick-reference/what-is-the-difference-between-sparse-and-dense-retrieval — Milvus\n4. https://searchatlas.com/blog/dense-vs-sparse-retrieval — Search Atlas\n5. https://searchatlas.com/blog/dense-vs-sparse-retrieval — Search Atlas\n6. https://apxml.com/courses/optimizing-rag-for-production/chapter-2-advanced-retrieval-optimization/hybrid-search-rag — Apxml\n7. http://arxiv.org/abs/cond-mat/0309395v2 — arXiv\n8. http://arxiv.org/abs/2601.05264v1 — arXiv\n9. http://arxiv.org/abs/2404.07220v2 — arXiv\n10. http://arxiv.org/abs/2504.01346v4 — arXiv\n11. http://arxiv.org/abs/2510.22344v1 — arXiv\n12. http://arxiv.org/abs/2207.03834v1 — arXiv\n13. http://arxiv.org/abs/0911.5046v2 — arXiv\n14. https://github.com/MohammadAsadolahi/Hybrid-Agentic-RAG-using-semantic-search-and-BM25 — GitHub\n15. https://github.com/gwyer/hybrid-rag-project — GitHub\n16. https://github.com/yuniko-software/bge-m3-qdrant-sample — GitHub\n17. https://medium.com/@muhibuddin12/9-rag-failures-i-see-in-production-and-the-retrieval-fixes-that-actually-work-6ee3d0838951 — Medium\n18. https://medium.com/@muhibuddin12/9-rag-failures-i-see-in-production-and-the-retrieval-fixes-that-actually-work-6ee3d0838951 — Medium\n19. https://medium.com/@muhibuddin12/9-rag-failures-i-see-in-production-and-the-retrieval-fixes-that-actually-work-6ee3d0838951 — Medium\n20. https://dl.acm.org/doi/full/10.1145/3708657.3708747 — ACM Digital Library\n## Verification\n\n**Grounding score:** 76% (13/17 claims verified)\n\n**4 flagged claim(s):**\n\n1. **[unsupported]** However, no sparse retrieval methods for RAG systems have been published on arXiv in 2024-2026\n   - Cited: http://arxiv.org/abs/cond-mat/0309395v2\n   - Explanation: The source quotes from the findings do not provide any information about the publication of sparse retrieval methods for RAG systems on arXiv in 2024-2026, and therefore do not support the claim.\n\n2. **[partial_support]** Additionally, chunking must be re-evaluated in production RAG deployments\n   - Cited: https://medium.com/@muhibuddin12/9-rag-failures-i-see-in-production-and-the-retrieval-fixes-that-actually-work-6ee3d0838951\n   - Explanation: The source quote 'Chunking must be re-evaluated' supports the need for re-evaluation of chunking, but it does not specifically mention production RAG deployments like the claim does.\n\n3. **[unsupported]** The search for sparse retrieval methods for RAG systems in 2025-2026 is ongoing, but no methods have been published on arXiv in 2024-2026\n   - Cited: http://arxiv.org/abs/cond-mat/0309395v2\n   - Explanation: The source quotes do not provide any information about the publication of sparse retrieval methods for RAG systems on arXiv in 2024-2026, with most quotes discussing the general concept of RAG and its applications, and one quote mentioning a withdrawn paper, but not related to the claim.\n\n4. **[partial_support]** Additionally, chunking must be re-evaluated to ensure optimal performance\n   - Cited: https://medium.com/@muhibuddin12/9-rag-failures-i-see-in-production-and-the-retrieval-fixes-that-actually-work-6ee3d0838951\n   - Explanation: The source quote 'Chunking must be re-evaluated' directly supports the need for re-evaluation of chunking, but it does not explicitly mention ensuring optimal performance.\n",
+      "flagged": [],
+      "errors": []
+    },
+    {
+      "id": "q2",
+      "query_text": "How do modern multi-agent LLM systems handle disagreement between agents?",
+      "outcome": "verified",
+      "grounding_score": 73,
+      "verified": 16,
+      "flagged_count": 3,
+      "total_claims": 19,
+      "wall_clock_seconds": 68.35488979984075,
+      "sub_questions": [
+        {
+          "source": "web",
+          "priority": 1,
+          "question": "What are the current approaches to handling agent disagreement in multi-agent LLM systems?"
+        },
+        {
+          "source": "arxiv",
+          "priority": 2,
+          "question": "How do different architectures, such as centralized versus decentralized, impact the handling of agent disagreements?"
+        },
+        {
+          "source": "github",
+          "priority": 2,
+          "question": "What role do consensus mechanisms, such as voting or negotiation, play in resolving disagreements among agents in LLM systems?"
+        },
+        {
+          "source": "web",
+          "priority": 3,
+          "question": "What are the limitations and challenges of current methods for handling agent disagreements in multi-agent LLM systems?"
+        }
+      ],
+      "timings": {
+        "plan": 13.524307500105351,
+        "search": 5.6774734002538025,
+        "synthesize": 9.491698199883103,
+        "write": 1.8488620999269187,
+        "verify": 37.81254859967157
+      },
+      "findings": [],
+      "report_md": "## TL;DR\nModern multi-agent LLM systems handle disagreement between agents through various approaches, including understanding why disagreements arise [1], cross-verification among agents [2], and decentralized architectures that preserve data privacy [3][7]. These systems can efficiently handle complex tasks by working together [15] and can be used in real-world applications such as software development, financial trading, robotics, and enterprise operations [18].\n\n## Background\nMulti-agent LLM systems are designed to enable collaborative model training and decision-making among multiple agents. These systems face challenges such as handling disagreements between agents, preserving data privacy, and improving overall learning performance. Understanding how these systems handle disagreements is crucial for their effective deployment in various applications.\n\n## Key Findings\nCurrent approaches to handling disagreement between agents in modern multi-agent LLM systems include understanding why disagreements arise [1]. Cross-verification among agents can effectively overcome disagreements in multi-agent collaborative filtering frameworks [2]. Decentralized Multi-agent Learning (DML) enables collaborative model training while preserving data privacy [3][7]. However, inherent heterogeneity in agents' resources may lead to substantial variations in training time in DML [4][8]. Communication is an effective mechanism for coordinating the behaviors of multiple agents in MADRL [5], and agents can communicate various types of messages [6]. Training objectives, such as consensus-based or adversarial losses, can improve overall learning performance and achieve objectives in multi-agent deep reinforcement learning (MADRL) systems [9]. Multi-agent reinforcement learning models can enhance performance by leveraging sequential decision-making processes [11], and the order in which agents make decisions is important in multi-agent reinforcement learning [12].\n\n## Open Questions / Gaps\nWhile the findings provide insights into how modern multi-agent LLM systems handle disagreements between agents, there are still open questions and gaps in our understanding. For example, the impact of centralized vs decentralized architectures on disagreement handling in multi-agent LLM systems is not fully understood [8]. Additionally, the effectiveness of consensus-based or adversarial losses in shaping agent behavior in multi-agent LLM systems is still a topic of research [10]. Further investigation is needed to fully address these gaps and develop more effective multi-agent LLM systems.\n\n## References\n1. https://apxml.com/courses/multi-agent-llm-systems-design-implementation/chapter-3-agent-communication-coordination/multi-agent-conflict-resolution\n2. https://samiranama.com/posts/LLM-Based-Multi-Agent-Systems-Architectures-and-Collaboration\n3. http://arxiv.org/abs/2405.00839v1\n4. http://arxiv.org/abs/2405.00839v1\n5. http://arxiv.org/abs/2203.08975v2\n6. http://arxiv.org/abs/2203.08975v2\n7. http://arxiv.org/abs/2405.00839v1\n8. http://arxiv.org/abs/2405.00839v1\n9. http://arxiv.org/abs/2203.08975v2\n10. http://arxiv.org/abs/2203.08975v2\n11. http://arxiv.org/abs/2510.13343v1\n12. http://arxiv.org/abs/2510.13343v1\n13. http://arxiv.org/abs/2412.06333v3\n14. http://arxiv.org/abs/1807.02648v1\n15. https://www.superannotate.com/blog/multi-agent-llms\n16. https://arxiv.org/html/2505.00753v5\n17. https://arxiv.org/html/2505.00753v5\n18. https://xue-guang.com/post/llm-marl\n19. https://www.preprints.org/manuscript/202511.1370\n## Verification\n\n**Grounding score:** 73% (8/11 claims verified)\n\n**3 flagged claim(s):**\n\n1. **[partial_support]** Training objectives, such as consensus-based or adversarial losses, can improve overall learning performance and achieve objectives in multi-agent deep reinforcement learning (MADRL) systems\n   - Cited: http://arxiv.org/abs/2203.08975v2\n   - Explanation: The source quote mentions that agents can improve overall learning performance and achieve objectives through communication, which implies that specific training objectives like consensus-based losses might be beneficial, but it does not directly mention adversarial losses or explicitly state that these objectives improve performance.\n\n2. **[unsupported]** For example, the impact of centralized vs decentralized architectures on disagreement handling in multi-agent LLM systems is not fully understood\n   - Cited: http://arxiv.org/abs/2405.00839v1\n   - Explanation: The source quote discusses variations in training time due to heterogeneity in agents' resources, but does not mention disagreement handling or centralized vs decentralized architectures.\n\n3. **[unsupported]** Additionally, the effectiveness of consensus-based or adversarial losses in shaping agent behavior in multi-agent LLM systems is still a topic of research\n   - Cited: http://arxiv.org/abs/2203.08975v2\n   - Explanation: The source quote is 'NO FINDING', which does not provide any information to support or contradict the claim about the effectiveness of consensus-based or adversarial losses in shaping agent behavior in multi-agent LLM systems.\n",
+      "flagged": [],
+      "errors": []
+    },
+    {
+      "id": "q3",
+      "query_text": "Compare LangGraph, CrewAI, and AutoGen for building production agent systems.",
+      "outcome": "verified",
+      "grounding_score": 74,
+      "verified": 15,
+      "flagged_count": 6,
+      "total_claims": 21,
+      "wall_clock_seconds": 117.87045740010217,
+      "sub_questions": [
+        {
+          "source": "web",
+          "priority": 1,
+          "question": "What are the architectural differences between LangGraph, CrewAI, and AutoGen?"
+        },
+        {
+          "source": "web",
+          "priority": 2,
+          "question": "How do LangGraph, CrewAI, and AutoGen handle scalability and performance in production environments?"
+        },
+        {
+          "source": "github",
+          "priority": 2,
+          "question": "What are the development and integration challenges faced by users of LangGraph, CrewAI, and AutoGen?"
+        },
+        {
+          "source": "web",
+          "priority": 3,
+          "question": "What are the community and support resources available for LangGraph, CrewAI, and AutoGen?"
+        },
+        {
+          "source": "web",
+          "priority": 3,
+          "question": "What are the security and reliability considerations for building production agent systems with LangGraph, CrewAI, and AutoGen?"
+        }
+      ],
+      "timings": {
+        "plan": 4.520891800057143,
+        "search": 3.0114233000203967,
+        "synthesize": 37.42787839984521,
+        "write": 2.6953528998419642,
+        "verify": 70.21491100033745
+      },
+      "findings": [],
+      "report_md": "## TL;DR\nLangGraph, CrewAI, and AutoGen are suitable for building production agent systems, with LangGraph excelling at collaborative workflows [9], CrewAI designed for sophisticated Agentic flows [2], and AutoGen providing a simple and easy-to-use multi-agent framework [3]. The primary design goals of LangGraph, CrewAI, and AutoGen are to provide a DAG output [5], a more sophisticated Agentic flow [6], and a simple and easy-to-use multi-agent framework [7], respectively.\n\n## Background\nThe development of production agent systems requires careful consideration of the framework used. LangGraph, CrewAI, and AutoGen are three popular frameworks that have been compared in various studies [1][4]. LangGraph uses a graph-based approach to agent orchestration [8], while CrewAI uses roles to solve coordination in multi-agent systems [12]. AutoGen models agent collaboration as conversations [14].\n\n## Key Findings\nLangGraph is suitable for use cases that require a DAG output [1] and excels at collaborative workflows where one agent's output is another's input [9]. It also solves the \"looping\" problem in agentic workflows by giving granular control over state and human-in-the-loop interactions [10]. CrewAI is designed for use cases that require a more sophisticated Agentic flow [2] and supports a manager agent that coordinates the team for complex workflows [13]. AutoGen is suitable for use cases that require a simple and easy-to-use multi-agent framework [3] and models agent collaboration as conversations [14].\n\n## Comparison Matrix\n| Framework | Primary Design Goal | Suitable Use Cases |\n| --- | --- | --- |\n| LangGraph | DAG output [5] | Collaborative workflows [9], process-driven tasks [11] |\n| CrewAI | Sophisticated Agentic flow [6] | Complex workflows [13], sophisticated Agentic flows [2] |\n| AutoGen | Simple and easy-to-use multi-agent framework [7] | Simple and easy-to-use multi-agent framework [3] |\n\n## Implementation Notes\nWhen implementing a production agent system, it is essential to consider the primary design goal of the framework used. LangGraph is incredibly intuitive for process-driven tasks [11], while CrewAI has great documentation, tons of examples, and a solid community [18]. AutoGen has a comprehensive analysis examining its control ability, convergence to a termination state, and other relevant aspects [20].\n\n## Open Questions / Gaps\nThere are still some open questions and gaps in the comparison of LangGraph, CrewAI, and AutoGen. For example, the scalability and performance of each framework in large-scale production environments are not well understood. Additionally, the integration of these frameworks with other AI and machine learning tools is an area that requires further research.\n\n## References\n1. https://aaronyuqi.medium.com/first-hand-comparison-of-langgraph-crewai-and-autogen-30026e60b563\n2. https://aaronyuqi.medium.com/first-hand-comparison-of-langgraph-crewai-and-autogen-30026e60b563\n3. https://www.datacamp.com/tutorial/crewai-vs-langgraph-vs-autogen\n4. https://aaronyuqi.medium.com/first-hand-comparison-of-langgraph-crewai-and-autogen-30026e60b563\n5. https://aaronyuqi.medium.com/first-hand-comparison-of-langgraph-crewai-and-autogen-30026e60b563\n6. https://aaronyuqi.medium.com/first-hand-comparison-of-langgraph-crewai-and-autogen-30026e60b563\n7. https://www.datacamp.com/tutorial/crewai-vs-langgraph-vs-autogen\n8. https://dev.to/pockit_tools/langgraph-vs-crewai-vs-autogen-the-complete-multi-agent-ai-orchestration-guide-for-2026-2d63\n9. https://x.com/pvergadia/status/2002567197411958913\n10. https://x.com/pvergadia/status/2002567197411958913\n11. https://x.com/pvergadia/status/2002567197411958913\n12. https://www.linkedin.com/posts/greg-coquillo_ai-agents-langgraph-activity-7457819697493925889-s4o7\n13. https://dev.to/pockit_tools/langgraph-vs-crewai-vs-autogen-the-complete-multi-agent-ai-orchestration-guide-for-2026-2d63\n14. https://dev.to/pockit_tools/langgraph-vs-crewai-vs-autogen-the-complete-multi-agent-ai-orchestration-guide-for-2026-2d63\n15. https://github.com/Anas-Khan93/ai-agency-agents\n16. https://github.com/HighMark-31/TRAE-Skills\n17. https://github.com/HighMark-31/TRAE-Agents\n18. https://www.reddit.com/r/LangChain/comments/1g6i7cj/my_thoughts_on_the_most_popular_frameworks_today\n19. https://scalexi.medium.com/comparing-llm-agent-frameworks-langgraph-vs-autogen-vs-crew-ai-part-i-92234321eb6b\n20. https://scalexi.medium.com/comparing-llm-agent-frameworks-langgraph-vs-autogen-vs-crew-ai-part-i-92234321eb6b\n21. https://www.reddit.com/r/LangChain/comments/1g6i7cj/my_thoughts_on_the_most_popular_frameworks_today\n## Verification\n\n**Grounding score:** 74% (17/23 claims verified)\n\n**6 flagged claim(s):**\n\n1. **[partial_support]** LangGraph, CrewAI, and AutoGen are suitable for building production agent systems, with LangGraph excelling at collaborative workflows\n   - Cited: https://x.com/pvergadia/status/2002567197411958913\n   - Explanation: The source quote only supports the claim that LangGraph excels at collaborative workflows, but does not provide information about the suitability of LangGraph, CrewAI, and AutoGen for building production agent systems.\n\n2. **[partial_support]** The primary design goals of LangGraph, CrewAI, and AutoGen are to provide a DAG output\n   - Cited: https://aaronyuqi.medium.com/first-hand-comparison-of-langgraph-crewai-and-autogen-30026e60b563\n   - Explanation: The source quote mentions that the DAG output from LangGraph was used for CrewAI and AutoGen, implying a connection between the three, but does not explicitly state that providing a DAG output is a primary design goal for CrewAI and AutoGen.\n\n3. **[partial_support]** Agentic flow\n   - Cited: https://aaronyuqi.medium.com/first-hand-comparison-of-langgraph-crewai-and-autogen-30026e60b563\n   - Explanation: The source quote mentions designing a more sophisticated Agentic flow, but it does not explicitly state that CrewAI's primary design goal is to provide one, only that it is possible to design such a flow.\n\n4. **[partial_support]** LangGraph, CrewAI, and AutoGen are three popular frameworks that have been compared in various studies\n   - Cited: https://aaronyuqi.medium.com/first-hand-comparison-of-langgraph-crewai-and-autogen-30026e60b563\n   - Explanation: The source quote from Finding [1] mentions all three frameworks, LangGraph, CrewAI, and AutoGen, which partially supports the claim, but Finding [2] only mentions the importance of multi-agent frameworks without directly comparing the three.\n\n5. **[partial_support]** CrewAI is designed for use cases that require a more sophisticated Agentic flow\n   - Cited: https://aaronyuqi.medium.com/first-hand-comparison-of-langgraph-crewai-and-autogen-30026e60b563\n   - Explanation: The source quote mentions designing a more sophisticated Agentic flow, but it does not explicitly state that CrewAI is designed for such use cases, only that it is possible to design one.\n\n6. **[partial_support]** Agentic flows\n   - Cited: https://aaronyuqi.medium.com/first-hand-comparison-of-langgraph-crewai-and-autogen-30026e60b563\n   - Explanation: The source quote mentions designing a more sophisticated Agentic flow, which implies CrewAI's capability, but does not directly state that CrewAI is designed for such use cases.\n",
+      "flagged": [],
+      "errors": []
+    },
+    {
+      "id": "q4",
+      "query_text": "What are the best practices for hybrid BM25 + dense retrieval fusion in 2026?",
+      "outcome": "verified",
+      "grounding_score": 100,
+      "verified": 21,
+      "flagged_count": 0,
+      "total_claims": 21,
+      "wall_clock_seconds": 96.17098259925842,
+      "sub_questions": [
+        {
+          "source": "web",
+          "priority": 1,
+          "question": "What are the current state-of-the-art methods for combining BM25 and dense retrieval?"
+        },
+        {
+          "source": "arxiv",
+          "priority": 1,
+          "question": "What are the most effective techniques for weighting and merging BM25 and dense retrieval scores?"
+        },
+        {
+          "source": "arxiv",
+          "priority": 2,
+          "question": "How do different dense retrieval models (e.g. DPR, ANCE) interact with BM25 in a hybrid setup?"
+        },
+        {
+          "source": "github",
+          "priority": 2,
+          "question": "What are the computational costs and efficiency considerations for hybrid BM25 + dense retrieval systems?"
+        },
+        {
+          "source": "web",
+          "priority": 3,
+          "question": "What are the potential pitfalls and limitations of hybrid BM25 + dense retrieval approaches?"
+        }
+      ],
+      "timings": {
+        "plan": 8.593026099726558,
+        "search": 4.159601300023496,
+        "synthesize": 20.388456199783832,
+        "write": 2.496589200105518,
+        "verify": 60.53330979961902
+      },
+      "findings": [],
+      "report_md": "## TL;DR\nHybrid BM25 + dense retrieval fusion combines sparse keyword retrieval (BM25) with dense vector search, fused via Reciprocal Rank Fusion (RRF) [1], to handle query types that break each approach in isolation [19]. This approach captures the union of the BM25-only and dense-only results, in addition to the overlap [2], and can be used for passage indexing and retrieval [7]. The fusion mechanism, Reciprocal Rank Fusion (RRF), operates in hybrid search [20].\n\n## Background\nHybrid search is a technique that combines the strengths of sparse keyword retrieval (BM25) and dense vector search to improve recall and accuracy. BM25 is a sparse keyword matching approach that breaks down under vocabulary mismatch [13], while dense retrieval models can deteriorate in performance when encountering noisy user-generated text [12]. Hybrid search addresses these limitations by fusing the two approaches using reciprocal rank fusion and weighted score combination [21].\n\n## Key Findings\nHybrid search combines sparse keyword retrieval (BM25) with dense vector search, fused via Reciprocal Rank Fusion (RRF) [1], to handle query types that break each approach in isolation [19]. The fusion mechanism, Reciprocal Rank Fusion (RRF), operates in hybrid search [20]. Hybrid search captures the union of the BM25-only and dense-only results, in addition to the overlap [2]. BM25 can be used in conjunction with dense retrieval for passage indexing and retrieval [7] and for re-ranking [10]. Dense retrieval models can be used with dual-encoder architecture [11] and can deteriorate in performance when encountering noisy user-generated text [12]. Hybrid search can be implemented using various libraries and frameworks, such as infiniflow/infinity [14], CodeBendKit/codeseek [15], RustyRAG/RustyRAG [16], mburaksayici/RAG-Boilerplate [17], and samadpls/BestRAG [18].\n\n## Open Questions / Gaps\nWhile hybrid search has shown promising results, there are still open questions and gaps in the current research. For example, the optimal way to fuse BM25 and dense vector search results is still an open question. Additionally, the performance of hybrid search in real-world applications, such as e-commerce recommendation and search, is not well understood. Further research is needed to address these gaps and to improve the accuracy and efficiency of hybrid search.\n\n## Implementation Notes\nHybrid search can be implemented using various libraries and frameworks, such as infiniflow/infinity [14], CodeBendKit/codeseek [15], RustyRAG/RustyRAG [16], mburaksayici/RAG-Boilerplate [17], and samadpls/BestRAG [18]. These libraries provide pre-built functions and tools for implementing hybrid search, including reciprocal rank fusion and weighted score combination. Additionally, researchers and developers can use open-source frameworks, such as PyTorch and TensorFlow, to build and train their own hybrid search models.\n\n## References\n1. https://denser.ai/blog/hybrid-search-for-rag\n2. https://mbrenndoerfer.com/writing/hybrid-search-bm25-dense-retrieval-fusion\n3. https://blog.gopenai.com/hybrid-search-in-rag-dense-sparse-bm25-splade-reciprocal-rank-fusion-and-when-to-use-which-fafe4fd6156e\n4. https://www.emergentmind.com/topics/hybrid-retrieval\n5. http://arxiv.org/abs/0911.5046v2\n6. http://arxiv.org/abs/0911.5046v2\n7. http://arxiv.org/abs/2108.06279v2\n8. http://arxiv.org/abs/2602.00899v1\n9. http://arxiv.org/abs/2108.06279v2\n10. http://arxiv.org/abs/2108.06279v2\n11. http://arxiv.org/abs/2205.02303v1\n12. http://arxiv.org/abs/2205.02303v1\n13. http://arxiv.org/abs/2602.00899v1\n14. https://github.com/infiniflow/infinity\n15. https://github.com/CodeBendKit/codeseek\n16. https://github.com/RustyRAG/RustyRAG\n17. https://github.com/mburaksayici/RAG-Boilerplate\n18. https://github.com/samadpls/BestRAG\n19. https://www.digitalapplied.com/blog/hybrid-search-bm25-vector-reranking-reference-2026\n20. https://www.digitalapplied.com/blog/hybrid-search-bm25-vector-reranking-reference-2026\n21. https://mbrenndoerfer.com/writing/hybrid-search-bm25-dense-retrieval-fusion\n## Verification\n\n**Grounding score:** 100% (20/20 claims verified)\n\n_All claims verified against their cited findings._",
+      "flagged": [],
+      "errors": []
+    },
+    {
+      "id": "q5",
+      "query_text": "What is the current state of the AI infrastructure market and who are the dominant players?",
+      "outcome": "verified",
+      "grounding_score": 100,
+      "verified": 22,
+      "flagged_count": 0,
+      "total_claims": 22,
+      "wall_clock_seconds": 93.34125190041959,
+      "sub_questions": [
+        {
+          "source": "web",
+          "priority": 1,
+          "question": "What is the current market size and growth rate of the AI infrastructure market?"
+        },
+        {
+          "source": "web",
+          "priority": 1,
+          "question": "Who are the leading providers of AI infrastructure solutions?"
+        },
+        {
+          "source": "web",
+          "priority": 2,
+          "question": "What are the most popular AI infrastructure technologies and trends?"
+        },
+        {
+          "source": "web",
+          "priority": 2,
+          "question": "How do the dominant players compare in terms of their AI infrastructure offerings and strategies?"
+        },
+        {
+          "source": "web",
+          "priority": 3,
+          "question": "What are the potential challenges and limitations of the current AI infrastructure market?"
+        }
+      ],
+      "timings": {
+        "plan": 11.650868900120258,
+        "search": 2.364176800008863,
+        "synthesize": 34.4658524999395,
+        "write": 2.995760400313884,
+        "verify": 41.864593300037086
+      },
+      "findings": [],
+      "report_md": "## TL;DR\nThe current state of the AI infrastructure market is characterized by significant growth, with the market size reaching USD 101.17 billion in 2026 [3] and expected to reach US$ 167.60 Bn by 2029, at a CAGR of 27.70% [4]. The market is dominated by key players such as Google LLC [6] and Nvidia Corporation [7]. The AI infrastructure market is valued to reach US$ 509.96 billion by 2034, growing at a CAGR of 26.35% [5].\n\n## Background\nThe Global AI Infrastructure Market refers to the ecosystem of hardware, software, and services that support the development, deployment, and scaling of AI [1]. AI infrastructure refers to the integrated hardware and software environment designed to support artificial intelligence (AI) and machine learning (ML) [2].\n\n## Key Findings\nThe AI infrastructure market is expected to experience significant growth in the coming years, with the market size expected to reach US$ 167.60 Bn by 2029, at a CAGR of 27.70% [4]. The market is dominated by key players such as Google LLC [6], Nvidia Corporation [7], and Microsoft (US) [9]. The market is also characterized by emerging trends such as sovereign and agentic AI, edge deployments, and AI factories [10]. AI architectures are evolving toward a hybrid model that blends cloud training, edge inference, and on-device intelligence [11]. Neuromorphic computing is one of the edge AI trends that represent the next frontier [12]. AI-ready data centers, hybrid cloud as the default, and the expansion of Zero Trust are emerging digital infrastructure trends [13].\n\n## Open Questions / Gaps\nVendor lock-in is a significant risk for organizations aiming to scale beyond their current infrastructure [14]. Vendor lock-in can lead to significant costs and hamper flexibility in migrating to alternative storage solutions [15]. However, the findings do not provide a comprehensive analysis of the risks and challenges associated with vendor lock-in in the AI infrastructure market. Further research is needed to fully understand the implications of vendor lock-in and to identify strategies for mitigating its risks.\n\n## Market Landscape\nThe AI infrastructure market is characterized by a complex landscape of vendors, each with their own strengths and weaknesses. Google LLC [6], Nvidia Corporation [7], and Microsoft (US) [9] are among the key players in the market. The market is also influenced by emerging trends such as cloud computing, which poses 17 security risks, including data breaches, unauthorized access, and data loss [22]. Vendor lock-in can lead to a range of negative consequences, including dual-role problems, structural conflict, opacity, asymmetry of information, sector-wide dependency, and vertical integration and lock-in [16-21].\n\n## References\n1. https://www.techsciresearch.com/report/ai-infrastructure-market/30524.html\n2. https://www.supermicro.com/en/glossary/ai-infrastructure\n3. https://www.mordorintelligence.com/industry-reports/ai-infrastructure-market\n4. https://www.maximizemarketresearch.com/market-report/global-ai-infrastructure-market/32472\n5. https://www.theinsightpartners.com/reports/ai-infrastructure-market\n6. https://www.grandviewresearch.com/industry-analysis/ai-infrastructure-market-report\n7. https://www.grandviewresearch.com/industry-analysis/ai-infrastructure-market-report\n8. https://www.marketsandmarkets.com/ResearchInsight/artificial-intelligence-market.asp\n9. https://www.marketsandmarkets.com/ResearchInsight/artificial-intelligence-market.asp\n10. https://www.spectrocloud.com/blog/enterprise-ai-2026-trends\n11. https://www.apacer.com/en/pnews/industrial-infographic/content/apacer-2026-tech-trends\n12. https://www.linkedin.com/pulse/edge-ai-trends-whats-working-now-next-2026-n-ix-hgcif\n13. https://www.tierpoint.com/blog/cloud/digital-infrastructure-trends\n14. https://www.linkedin.com/pulse/ai-vendor-lock-in-trap-how-caios-avoid-multi-year-dependency-1ucze\n15. https://www.datacore.com/glossary/vendor-lock-in\n16. https://labs.cloudsecurityalliance.org/wp-content/uploads/2026/05/ai-developer-ecosystem-critical-infrastructure-concentration-risk-v1-csa-styled.pdf\n17. https://labs.cloudsecurityalliance.org/wp-content/uploads/2026/05/ai-developer-ecosystem-critical-infrastructure-concentration-risk-v1-csa-styled.pdf\n18. https://labs.cloudsecurityalliance.org/wp-content/uploads/2026/05/ai-developer-ecosystem-critical-infrastructure-concentration-risk-v1-csa-styled.pdf\n19. https://labs.cloudsecurityalliance.org/wp-content/uploads/2026/05/ai-developer-ecosystem-critical-infrastructure-concentration-risk-v1-csa-styled.pdf\n20. https://labs.cloudsecurityalliance.org/wp-content/uploads/2026/05/ai-developer-ecosystem-critical-infrastructure-concentration-risk-v1-csa-styled.pdf\n21. https://labs.cloudsecurityalliance.org/wp-content/uploads/2026/05/ai-developer-ecosystem-critical-infrastructure-concentration-risk-v1-csa-styled.pdf\n22. https://www.sentinelone.com/cybersecurity-101/cloud-security/security-risks-of-cloud-computing\n## Verification\n\n**Grounding score:** 100% (17/17 claims verified)\n\n_All claims verified against their cited findings._",
+      "flagged": [],
+      "errors": []
+    },
+    {
+      "id": "q6",
+      "query_text": "How did the transformer architecture evolve from the original 2017 paper to modern LLMs?",
+      "outcome": "verified",
+      "grounding_score": 75,
+      "verified": 20,
+      "flagged_count": 0,
+      "total_claims": 20,
+      "wall_clock_seconds": 136.31133570009843,
+      "sub_questions": [
+        {
+          "source": "arxiv",
+          "priority": 1,
+          "question": "What were the key contributions of the original 2017 transformer paper?"
+        },
+        {
+          "source": "arxiv",
+          "priority": 2,
+          "question": "How did the introduction of BERT and RoBERTa impact the development of transformer-based LLMs?"
+        },
+        {
+          "source": "web",
+          "priority": 2,
+          "question": "What role did scaling up transformer models play in achieving state-of-the-art results in modern LLMs?"
+        },
+        {
+          "source": "arxiv",
+          "priority": 2,
+          "question": "How have modern LLMs incorporated techniques such as attention mechanisms, layer normalization, and positional encoding?"
+        },
+        {
+          "source": "web",
+          "priority": 3,
+          "question": "What are the current limitations and challenges in the development of transformer-based LLMs?"
+        }
+      ],
+      "timings": {
+        "plan": 5.428446900099516,
+        "search": 2.1823653001338243,
+        "synthesize": 17.445601399987936,
+        "write": 2.868198299780488,
+        "verify": 108.38672380009666
+      },
+      "findings": [],
+      "report_md": "## TL;DR\nThe transformer architecture has evolved significantly from the original 2017 paper [1], which introduced self-attention mechanisms [1] and achieved state-of-the-art results on the WMT 2014 English-to-German translation task [2]. Modern Large Language Models (LLMs) have built upon this foundation, with pre-training data playing a pivotal role in their development [11] and pre-training establishing a foundational understanding of language patterns, grammar, and real-world knowledge [12]. However, transformers also have limitations, such as not continuously learning or updating from new experiences [16] and struggling with compositional tasks [18].\n\n## Background\nThe original transformer paper introduced a new architecture that relied entirely on self-attention mechanisms [1]. This architecture consisted of a multi-layer bidirectional encoder and a decoder with a final fully connected layer [3], and used a sinusoidal positional encoding [4] and sub-word tokenization [5]. The transformer model achieved new state-of-the-art results on the WMT 2014 English-to-German translation task [2].\n\n## Key Findings\nThe transformer architecture has been widely adopted and has evolved to be used in various natural language processing tasks, such as Java code generation from natural language text [6], speech processing tasks [7], Bangla natural language processing tasks [8], and clinical natural language processing tasks [10]. Pre-training data plays a crucial role in the development of large language models [11], and pre-training establishes a foundational understanding of language patterns, grammar, and real-world knowledge [12]. Large-scale pretraining datasets are essential for training powerful LLMs [13], and the capabilities of LLMs are only as strong as the datasets on which they are trained [14]. However, transformers also have limitations, such as not continuously learning or updating from new experiences [16], struggling with compositional tasks [18], and having a self-attention mechanism with quadratic memory complexity [20]. Additionally, training, deploying, and updating multiple models can be complex, costly, and time-consuming, mainly when using transformer-based pre-trained language models [19].\n\n## Open Questions / Gaps\nWhile the findings provide insight into the evolution of the transformer architecture and its applications, there are still open questions regarding the limitations of transformers and how to address them. For example, how can transformers be improved to continuously learn and update from new experiences [16]? How can the self-attention mechanism be modified to reduce its quadratic memory complexity [20]? These questions require further research and investigation to fully understand the potential of transformer-based models.\n\n## References\n1. http://arxiv.org/abs/1706.03762v5 — Original Transformer Paper\n2. http://arxiv.org/abs/1706.03762v5 — Original Transformer Paper\n3. http://arxiv.org/abs/1706.03762v5 — Original Transformer Paper\n4. http://arxiv.org/abs/1706.03762v5 — Original Transformer Paper\n5. http://arxiv.org/abs/1706.03762v5 — Original Transformer Paper\n6. http://arxiv.org/abs/2306.06371v1 — Transformer-based Models for Java Code Generation\n7. http://arxiv.org/abs/2408.13040v1 — Prompting for Speech Processing Tasks\n8. http://arxiv.org/abs/2107.03844v3 — Pre-trained Transformer Models for Bangla NLP Tasks\n9. http://arxiv.org/abs/2006.16212v1 — Morphological Processing of the Tangkhul Language\n10. http://arxiv.org/abs/2110.10780v3 — Clinical Natural Language Processing Tasks\n11. https://dl.acm.org/doi/full/10.1145/3649506 — Pre-training Data for Large Language Models\n12. https://milvus.io/ai-quick-reference/why-is-pretraining-important-for-llms — Pre-training for Large Language Models\n13. https://www.youtube.com/watch?v=dRT5Vf9_OYw — Building Datasets for Large Language Models\n14. https://toloka.ai/blog/the-backbone-of-large-language-models-understanding-training-datasets — Training Datasets for Large Language Models\n15. https://mlops.community/blog/pretraining-breaking-down-the-modern-llm-training-pipeline — Pre-training for Large Language Models\n16. https://medium.com/@DrKilngon/limitations-of-llm-models-03cc3d6645b6 — Limitations of LLM Models\n17. https://developers.google.com/machine-learning/crash-course/llm/transformers — Transformers and LLMs\n18. https://www.facebook.com/groups/314527842604567/posts/1647181572672514 — Transformers and Compositional Tasks\n19. https://www.sciencedirect.com/science/article/pii/S2949719124000244 — Training and Deploying Transformer-based Models\n20. https://www.reddit.com/r/MachineLearning/comments/18qh1hp/discussion_in_this_age_of_llms_what_are_the — Limitations of the Transformer Architecture\n## Verification\n\n**Grounding score:** 75% (12/16 claims verified)\n\n_All claims verified against their cited findings._",
+      "flagged": [],
+      "errors": []
+    },
+    {
+      "id": "q7",
+      "query_text": "What are the current capabilities and limitations of Bangla language LLMs?",
+      "outcome": "failed",
+      "grounding_score": null,
+      "verified": 0,
+      "flagged_count": 0,
+      "total_claims": 0,
+      "wall_clock_seconds": 14.416293700225651,
+      "sub_questions": [
+        {
+          "source": "web",
+          "priority": 1,
+          "question": "What are the current benchmarks for Bangla language LLMs?"
+        },
+        {
+          "source": "arxiv",
+          "priority": 1,
+          "question": "What are the most recent research papers on Bangla language LLMs?"
+        },
+        {
+          "source": "web",
+          "priority": 2,
+          "question": "What are the common challenges faced by Bangla language LLMs?"
+        },
+        {
+          "source": "github",
+          "priority": 2,
+          "question": "What are the available open-source implementations of Bangla language LLMs?"
+        },
+        {
+          "source": "web",
+          "priority": 3,
+          "question": "What are the potential applications of Bangla language LLMs?"
+        }
+      ],
+      "timings": {
+        "plan": 14.416293700225651
+      },
+      "findings": [],
+      "report_md": "",
+      "flagged": [],
+      "errors": [
+        "[planner] Planner failed on both 70B and 8B: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.1-8b-instant` in organization `org_01kt647gc5esf8mvtdd74smpzv` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Used 3828, Requested 2257. Please try again in 850ms. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+        "[researchers] no plan",
+        "[synthesizer] no plan",
+        "[writer] no plan",
+        "[verifier] no report or findings"
+      ]
+    },
+    {
+      "id": "q8",
+      "query_text": "How does Gemini 2.5 Flash compare to Llama-3.3-70B for structured output tasks?",
+      "outcome": "degraded",
+      "grounding_score": 21,
+      "verified": 6,
+      "flagged_count": 6,
+      "total_claims": 12,
+      "wall_clock_seconds": 158.296541900374,
+      "sub_questions": [
+        {
+          "source": "web",
+          "priority": 1,
+          "question": "What are the published benchmark results for Gemini 2.5 Flash vs Llama-3.3-70B on structured output tasks?"
+        },
+        {
+          "source": "web",
+          "priority": 2,
+          "question": "What do developer reviews and engineering blogs say about each model's strengths and weaknesses for structured output tasks?"
+        },
+        {
+          "source": "web",
+          "priority": 2,
+          "question": "How do the models' architectures and technical specifications compare for structured output tasks?"
+        },
+        {
+          "source": "web",
+          "priority": 3,
+          "question": "What are the pricing and rate limit differences for Gemini 2.5 Flash and Llama-3.3-70B for structured output tasks?"
+        }
+      ],
+      "timings": {
+        "plan": 2.063364800065756,
+        "search": 2.5131875001825392,
+        "synthesize": 43.95071930019185,
+        "write": 20.505675499793142,
+        "verify": 89.26359480014071
+      },
+      "findings": [],
+      "report_md": "# TL;DR\nGemini 2.5 Flash Preview (Reasoning) has image input support [1], while Llama 3.3 Instruct 70B does not [1]. Gemini 2.5 Flash-Lite leads on benchmark performance compared to Llama 3.3 70B Instruct [2]. Gemini 2.5 Pro ships a 1m-token context window, while Llama 3.3 70B Instruct ships a 128k-token context window [3]. Gemini 2.5 Pro fits 8x more tokens than Llama 3.3 70B Instruct [4]. Structured outputs can improve the reliability of LLM responses by forcing them to return data in a predictable shape [9].\n\n# Background\nStructured output tasks require models to return data in a specific format. This can be achieved through various methods, including JSON mode or constrained decoding. However, existing structured output benchmarks for LLMs contain major errors in the provided \"ground-truth\" outputs [10].\n\n# Key Findings\nGemini 2.5 Flash Preview (Reasoning) has image input support while Llama 3.3 Instruct 70B does not [1]. Gemini 2.5 Flash-Lite leads on benchmark performance compared to Llama 3.3 70B Instruct [2]. Gemini 2.5 Pro ships a 1m-token context window, while Llama 3.3 70B Instruct ships a 128k-token context window [3]. Gemini 2.5 Pro fits 8x more tokens than Llama 3.3 70B Instruct [4]. Structured outputs can improve the reliability of LLM responses by forcing them to return data in a predictable shape [9].\n\n# Open Questions / Gaps\nThere are several frameworks and tools that compare models on real structured output workflows, including Promptify [5], llama-cpp-agent [6], zod-gpt [7], and ollama-swift [8]. However, the impact of structured outputs on LLM performance, particularly on tasks that require open-ended responses, is still an open question [12].\n\n# References\n[1] artificialanalysis.ai — https://artificialanalysis.ai/models/comparisons/gemini-2-5-flash-preview-09-2025-reasoning-vs-llama-3-3-instruct-70b\n[2] anotherwrapper.com — https://anotherwrapper.com/tools/llm-pricing/gemini-2-5-flash-lite/llama-3-3-70b-instruct\n[3] llmreference.com — https://www.llmreference.com/compare/gemini-2-5-pro/llama-3-3-70b-instruct\n[4] llmreference.com — https://www.llmreference.com/compare/gemini-2-5-pro/llama-3-3-70b-instruct\n[5] github.com — https://github.com/promptslab/Promptify\n[6] github.com — https://github.com/Maximilian-Winter/llama-cpp-agent\n[7] github.com — https://github.com/dzhng/zod-gpt\n[8] github.com — https://github.com/mattt/ollama-swift\n[9] collinwilkins.com — https://collinwilkins.com/articles/structured-output\n[10] cleanlab.ai — https://cleanlab.ai/blog/structured-output-benchmark\n[11] rephrase-it.com — https://rephrase-it.com/blog/structured-output-in-2026-what-to-use\n[12] dylancastillo.co — https://dylancastillo.co/posts/say-what-you-mean-sometimes.html\n## Verification\n\n**Grounding score:** 21% (3/14 claims verified)\n\n**6 flagged claim(s):**\n\n1. **[unsupported]** Instruct 70B does not\n   - Cited: https://artificialanalysis.ai/models/comparisons/gemini-2-5-flash-preview-09-2025-reasoning-vs-llama-3-3-instruct-70b\n   - Explanation: The source quote does not provide information about what Instruct 70B does or does not support, but rather makes a comparison between Gemini 2.5 Flash Preview and Llama 3.3 Instruct 70B.\n\n2. **[unsupported]** B Instruct\n   - Cited: https://anotherwrapper.com/tools/llm-pricing/gemini-2-5-flash-lite/llama-3-3-70b-instruct\n   - Explanation: The source quote does not mention benchmark performance of Gemini 2.5 Flash-Lite being better than Llama 3.3 70B Instruct, but rather that Gemini 2.5 Flash-Lite leads on benchmark performance in general.\n\n3. **[unsupported]** Instruct 70B does not\n   - Cited: https://artificialanalysis.ai/models/comparisons/gemini-2-5-flash-preview-09-2025-reasoning-vs-llama-3-3-instruct-70b\n   - Explanation: The source quote does not address whether Instruct 70B has image input support or not, it only states that Gemini 2.5 Flash Preview has image input support while Llama 3.3 Instruct 70B does not.\n\n4. **[unsupported]** B Instruct\n   - Cited: https://anotherwrapper.com/tools/llm-pricing/gemini-2-5-flash-lite/llama-3-3-70b-instruct\n   - Explanation: The source quote mentions both pricing and benchmark performance, but the claim only mentions benchmark performance, making it unclear if the finding supports the claim.\n\n5. **[unsupported]** B Instruct ships a 128k-token context window\n   - Cited: https://www.llmreference.com/compare/gemini-2-5-pro/llama-3-3-70b-instruct\n   - Explanation: The source quote mentions two different models and their respective context windows, but does not provide information about the context window of B Instruct.\n\n6. **[unsupported]** However, the impact of structured outputs on LLM performance, particularly on tasks that require open-ended responses, is still an open question\n   - Cited: https://dylancastillo.co/posts/say-what-you-mean-sometimes.html\n   - Explanation: The source quote raises a question about the impact of structured outputs, but does not provide an answer or support for the claim that structured outputs can hurt LLM performance.\n",
+      "flagged": [],
+      "errors": []
+    },
+    {
+      "id": "q9",
+      "query_text": "What are the most common failure modes when deploying LangGraph agents to production?",
+      "outcome": "stub",
+      "grounding_score": null,
+      "verified": 17,
+      "flagged_count": 0,
+      "total_claims": 17,
+      "wall_clock_seconds": 96.53224300034344,
+      "sub_questions": [
+        {
+          "source": "github",
+          "priority": 1,
+          "question": "What are the most frequently reported errors when deploying LangGraph agents?"
+        },
+        {
+          "source": "web",
+          "priority": 2,
+          "question": "What are the documented best practices for deploying LangGraph agents in production environments?"
+        },
+        {
+          "source": "web",
+          "priority": 2,
+          "question": "What are the known limitations and potential pitfalls of LangGraph agents in production?"
+        },
+        {
+          "source": "github",
+          "priority": 3,
+          "question": "What are the common issues faced by developers when integrating LangGraph agents with other tools and systems?"
+        }
+      ],
+      "timings": {
+        "plan": 16.33167689992115,
+        "search": 2.744933499954641,
+        "synthesize": 54.929427300114185,
+        "write": 22.519665900152177,
+        "verify": 0.006539400201290846
+      },
+      "findings": [],
+      "report_md": "# What are the most common failure modes when deploying LangGraph agents to production?\n\n## TL;DR\n\n_Writer agent failed: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.1-8b-instant` in organization `org_01kt647gc5esf8mvtdd74smpzv` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Used 3190, Requested 3008. Please try again in 1.98s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}. Findings dumped below for manual review._\n\n## Raw Findings (writer unavailable)\n\n**Finding 1** (medium, sq=sq_2)\n- Claim: LangGraph configuration settings are prone to errors when not properly set up for orchestrating multiple AI agents.\n- Quote: \"MedAgent is an AI-powered multi-agent system designed to automate patient interactions, appointment scheduling, and notifications in healthcare settings. It integrates LangGraph for orchestrating multiple AI agents...\"\n- Source: https://github.com/0xneobyte/MedAgent\n\n**Finding 2** (medium, sq=sq_2)\n- Claim: LangGraph configuration settings are prone to errors when not properly set up for handling complex scenarios.\n- Quote: \"This guide will walk you through setting up and building a simple AI chat agent using LangGraph, which can be extended to handle more complex scenarios.\"\n- Source: https://github.com/IsaacZachary/master_ai_agent\n\n**Finding 3** (high, sq=sq_3)\n- Claim: LangGraph agents often fail due to complex workflows and lack of autonomy.\n- Quote: \"Workflows = If this, then that Agents = Figure out what to do\"\n- Source: https://www.linkedin.com/posts/eightnoteight_langgraph-is-massively-overrated-for-agents-activity-7314712331131727873-nK6Z\n\n**Finding 4** (high, sq=sq_3)\n- Claim: LangGraph agents may struggle with state management.\n- Quote: \"The difference that cost me $40K in wasted compute: Workflows = If this, then that Agents = Figure out what to do\"\n- Source: https://www.linkedin.com/posts/eightnoteight_langgraph-is-massively-overrated-for-agents-activity-7314712331131727873-nK6Z\n\n**Finding 5** (high, sq=sq_3)\n- Claim: LangGraph agents may be misused for tasks that can be handled by simpler tools.\n- Quote: \"I watched teams build complex agent systems for: • Data pipelines (just use Airflow) • API orchestration (literally what webhooks are for) • Report generation (cron job + template)\"\n- Source: https://www.linkedin.com/posts/eightnoteight_langgraph-is-massively-overrated-for-agents-activity-7314712331131727873-nK6Z\n\n**Finding 6** (high, sq=sq_3)\n- Claim: LangGraph agent failures can be caused by a lack of understanding of the agent's behavior.\n- Quote: \"I have created something I don’t fully know how to secure.\"\n- Source: https://www.jamesfan.net/blog/chapter1\n\n**Finding 7** (high, sq=sq_3)\n- Claim: LangGraph agent failures can be invisible, with the agent producing wrong outputs that pass.\n- Quote: \"Before: failures were invisible. The agent produced wrong outputs that passed\"\n- Source: https://www.reddit.com/r/LangChain/comments/1rxt7c2/after_6_months_of_agent_failures_in_production_i\n\n**Finding 8** (high, sq=sq_4)\n- Claim: You can't monitor LangGraph agents like traditional software due to their non-deterministic behavior and infinite inputs.\n- Quote: \"You can't monitor agents like traditional software. Inputs are infinite, behavior is non-deterministic, and quality lives in the conversations themselves.\"\n- Source: https://www.langchain.com/blog/production-monitoring\n\n**Finding 9** (high, sq=sq_4)\n- Claim: Production traces become the foundation for continuous improvement of LangGraph agents.\n- Quote: \"production traces become the foundation for continuous improvement.\"\n- Source: https://www.langchain.com/blog/production-monitoring\n\n**Finding 10** (high, sq=sq_4)\n- Claim: Comprehensive tracing and monitoring are necessary for identifying bottlenecks, tracing errors, and measuring improvements in LangGraph multi-agent systems.\n- Quote: \"Without proper observability, teams often struggle to identify bottlenecks, trace errors, and measure improvements across agent interactions.\"\n- Source: https://www.getmaxim.ai/articles/how-to-continuously-improve-your-langgraph-multi-agent-system\n\n**Finding 11** (high, sq=sq_4)\n- Claim: Datadog AI Agent Monitoring enables visualization of workflows with flame graphs and spotting sources of failures and latency in LangGraph agents.\n- Quote: \"By tracing full agent runs with LLM Observability, Datadog AI Agent Monitoring enables you to visualize workflows with flame graphs and quickly spot sources of failures and latency.\"\n- Source: https://www.datadoghq.com/blog/langgraph-agent-monitoring\n\n**Finding 12** (high, sq=sq_4)\n- Claim: Implementing comprehensive tracing and monitoring for LangGraph agents can help gain deep insights into agent behavior, identify failure points, and continuously improve performance.\n- Quote: \"By implementing comprehensive tracing and monitoring for your LangGraph agents, you can gain deep insights into agent behavior, identify failure points, and continuously improve your multi-agent system's performance.\"\n- Source: https://www.getmaxim.ai/articles/how-to-continuously-improve-your-langgraph-multi-agent-system\n\n**Finding 13** (low, sq=sq_5)\n- Claim: LangGraph agent integration issues with other systems that lead to deployment failures are not explicitly discussed in the provided sources.\n- Quote: \"A production-ready FastAPI template for building AI agent applications with LangGraph integration.\"\n- Source: https://github.com/wassim249/fastapi-langgraph-agent-production-ready-template\n\n**Finding 14** (low, sq=sq_5)\n- Claim: The full-stack AI app generator template does not explicitly discuss LangGraph agent integration issues that lead to deployment failures.\n- Quote: \"Full-stack AI app generator — FastAPI + Next.js with AI Agents, RAG, streaming, auth, and 20+ integrations out of the box.\"\n- Source: https://github.com/vstorm-co/full-stack-ai-agent-template\n\n**Finding 15** (low, sq=sq_5)\n- Claim: The ARGO AI Agent platform does not explicitly discuss LangGraph agent integration issues that lead to deployment failures.\n- Quote: \"ARGO is an open-source AI Agent platform that brings Local Manus to your desktop. With one-click model downloads, seamless closed LLM integration, and offline-first RAG knowledge bases, ARGO becomes a DeepResearch powerhouse for autonomous thinking, task planning, and 100% of your data ...\"\n- Source: https://github.com/xark-argo/argo\n\n**Finding 16** (low, sq=sq_5)\n- Claim: The LangGraph-powered ReAct agent with Model Context Protocol (MCP) integration does not explicitly discuss LangGraph agent integration issues that lead to deployment failures.\n- Quote: \"LangGraph-powered ReAct agent with Model Context Protocol (MCP) integration. A Streamlit web interface for dynamically configuring, deploying, and interacting with AI agents capable of accessing various data sources and APIs through MCP tools.\"\n- Source: https://github.com/braincrew-lab/langgraph-mcp-agents\n\n**Finding 17** (low, sq=sq_5)\n- Claim: The Evo AI platform does not explicitly discuss LangGraph agent integration issues that lead to deployment failures.\n- Quote: \"Evo AI is an open-source platform for creating and managing AI agents, enabling integration with different AI models and services.\"\n- Source: https://github.com/evolution-foundation/evo-ai\n\n\n## Verification\n\n_No citation-anchored claims to verify._\n",
+      "flagged": [],
+      "errors": []
+    },
+    {
+      "id": "q10",
+      "query_text": "What are the open research problems in evaluating multi-step reasoning in LLMs?",
+      "outcome": "partial",
+      "grounding_score": 65,
+      "verified": 12,
+      "flagged_count": 0,
+      "total_claims": 12,
+      "wall_clock_seconds": 172.86802770057693,
+      "sub_questions": [
+        {
+          "source": "arxiv",
+          "priority": 1,
+          "question": "What are the current benchmarks for evaluating multi-step reasoning in LLMs?"
+        },
+        {
+          "source": "arxiv",
+          "priority": 2,
+          "question": "What are the limitations of current evaluation methods for multi-step reasoning in LLMs?"
+        },
+        {
+          "source": "arxiv",
+          "priority": 2,
+          "question": "How do existing evaluation methods account for reasoning errors and biases in LLMs?"
+        },
+        {
+          "source": "web",
+          "priority": 3,
+          "question": "What are the potential applications of improved evaluation methods for multi-step reasoning in LLMs?"
+        },
+        {
+          "source": "web",
+          "priority": 3,
+          "question": "What are the challenges in developing more comprehensive evaluation methods for multi-step reasoning in LLMs?"
+        }
+      ],
+      "timings": {
+        "plan": 1.0838344004005194,
+        "search": 1.7524557001888752,
+        "synthesize": 36.70735999988392,
+        "write": 17.628056900110096,
+        "verify": 115.69632069999352
+      },
+      "findings": [],
+      "report_md": "## TL;DR\nEvaluating multi-step reasoning in LLMs is challenging due to the lack of robust evaluation methods, which require additional computational resources and time, potentially leading to slower response times [9]. Systematic analyses of LLM reasoning abilities remain limited [11], and modern LLMs struggle with multi-step logical reasoning due to losing track of earlier reasoning steps [12].\n\n## Background\nMulti-step reasoning in LLMs involves complex tasks that require multiple reasoning steps to arrive at a solution. Various models have been proposed to address this challenge, including IMA-GloVe-GA [1], DiffCoT [2], PageIndex [3], Husky v1 [4], Husky [5], Datarus-JupyterAgent [6], llm [7], and ircot [8].\n\n## Key Findings\nSeveral models have been proposed to address multi-step reasoning in LLMs. IMA-GloVe-GA uses an iterative memory neural network based on RNN with a gated attention mechanism for multi-step reasoning [1]. DiffCoT reformulates CoT reasoning as an iterative denoising process using a sliding-window mechanism [2]. PageIndex is a vectorless reasoning-based RAG system that uses multi-step reasoning and tree search [3]. Husky v1 addresses numerical, tabular, and knowledge-based reasoning tasks [4]. Husky is an open-source language agent that solves complex, multi-step reasoning tasks [5]. Datarus-JupyterAgent is a multi-step reasoning pipeline powered by the Datarus-R1-14B-Preview model [6]. llm is a powerful Rust library and CLI tool that unifies and orchestrates multiple LLM, Agent, and voice backends [7]. ircot is a repository for Interleaving Retrieval with Chain-of-Thought Reasoning for Knowledge-Intensive Multi-Step Questions [8].\n\n## Open Questions / Gaps\nThe current evaluation methods for multi-step reasoning in LLMs require additional computational resources and time, potentially leading to slower response times [9]. Systematic analyses of LLM reasoning abilities remain limited [11]. Modern LLMs struggle with multi-step logical reasoning due to losing track of earlier reasoning steps [12]. Furthermore, the lack of robust evaluation methods and the limited understanding of LLM reasoning abilities hinder the development of more effective models for multi-step reasoning.\n\n## References\n[1] IMA-GloVe-GA — http://arxiv.org/abs/2207.14000v4\n[2] DiffCoT — http://arxiv.org/abs/2601.03559v2\n[3] PageIndex — https://github.com/VectifyAI/pageindex-mcp\n[4] Husky v1 — https://github.com/agent-husky/Husky-v1\n[5] Husky — https://github.com/agent-husky/Husky-v1\n[6] Datarus-JupyterAgent — https://github.com/DatarusAI/Datarus-JupyterAgent\n[7] llm — https://github.com/graniet/llm\n[8] ircot — https://github.com/StonyBrookNLP/ircot\n[9] The sequential nature of multi-step reasoning requires additional computational resources and time, potentially leading to slower response times — https://cobusgreyling.substack.com/p/llm-multi-step-reasoning-stages-with\n[10] improving robustness in chained task — https://www.sciencedirect.com/science/article/pii/S240595952500133X\n[11] Despite impressive advances in natural language processing, systematic analyses of LLM reasoning abilities remain limited — https://kili-technology.com/blog/benchmarking-llm-reasoning-comprehensive-multi-dimensional-evaluation-of-8-leading-models\n[12] losing track of earlier reasoning steps — https://ai.stackexchange.com/questions/50427/why-do-modern-llms-still-struggle-with-multi-step-logical-reasoning-despite-larg\n## Verification\n\n**Grounding score:** 65% (13/20 claims verified)\n\n_All claims verified against their cited findings._",
+      "flagged": [],
+      "errors": []
+    }
+  ],
+  "summary": {
+    "avg_grounding_honest": 73,
+    "total_queries": 10,
+    "clean_runs": 6,
+    "stub_runs": 1,
+    "failed_runs": 1,
+    "total_runtime_seconds": 1021.5,
+    "avg_query_seconds": 102.2
+  }
+}
