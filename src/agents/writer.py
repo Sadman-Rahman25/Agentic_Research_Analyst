@@ -142,6 +142,48 @@ Output ONLY the markdown report starting with `## Summary`. No preamble.
 """
 
 
+WRITER_FALLBACK_PROMPT: Final[str] = """
+You are a research writer. You will be given a research QUESTION and a numbered
+list of FINDINGS (each has a claim, verbatim quote, and source URL).
+
+Write a markdown report with these EXACT section headers in this order:
+
+## Summary
+2-3 sentences answering the question. Cite [N] for main claims.
+
+## Introduction
+2-3 sentences of background context. Cite 2-3 findings.
+
+## Methodology
+1-2 sentences on how the sources approach this topic. Cite where relevant.
+
+## Key Findings
+3-4 sentences summarizing what the sources say. Cite heavily.
+
+## Discussion
+1-2 sentences on tensions or agreements between sources.
+
+## Implementation Notes
+1-2 sentences of practical takeaway.
+
+## References
+[1] <URL>
+[2] <URL>
+... (list every finding number you cited, in order, with source URL)
+
+RULES:
+- Every non-trivial claim needs an inline [N] citation.
+- Only cite finding numbers that exist in the input.
+- Multiple citations for one claim: [1][3] (not [1,3]).
+- References section MUST list every [N] you cited, in order.
+- Total length: 400-500 words.
+- Do NOT invent findings.
+- Do NOT add preamble like "As requested" or "In this report".
+
+Output ONLY the markdown report starting with `## Summary`.
+"""
+
+
 # ---------------------------------------------------------------------------
 # Findings rendering
 # ---------------------------------------------------------------------------
@@ -216,12 +258,14 @@ def write_report(
         f"FINDINGS:\n\n{_format_findings(findings)}\n\n"
         f"Compose the markdown report now."
     )
-    messages = [
-        SystemMessage(content=WRITER_SYSTEM_PROMPT),
-        HumanMessage(content=user_msg),
-    ]
-
     def _invoke(use_fast: bool):
+        # 70B: full thesis-style prompt (~900 words, many rules).
+        # 8B: simpler prompt (~400 words). 8B cannot reliably follow the full 70B spec.
+        system_prompt = WRITER_FALLBACK_PROMPT if use_fast else WRITER_SYSTEM_PROMPT
+        messages = [
+            SystemMessage(content=system_prompt),
+            HumanMessage(content=user_msg),
+        ]
         llm = get_llm(
             provider="groq",
             structured=False,
