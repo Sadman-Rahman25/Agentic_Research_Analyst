@@ -168,11 +168,11 @@ def _stub_report(plan: ResearchPlan, findings: list[Finding], reason: str) -> st
     lines = [
         f"# {plan.user_query}",
         "",
-        "## TL;DR",
+        "## Summary",
         "",
         f"_Writer agent failed: {reason}. Findings dumped below for manual review._",
         "",
-        "## Raw Findings (writer unavailable)",
+        "## Key Findings (writer unavailable)",
         "",
     ]
     for i, finding in enumerate(findings, 1):
@@ -205,7 +205,7 @@ def write_report(
     if not findings:
         return (
             f"# {plan.user_query}\n\n"
-            "## TL;DR\n\n"
+            "## Summary\n\n"
             "No findings were extracted for this query. "
             "The Synthesizer found no extractable claims in the gathered sources.\n"
         )
