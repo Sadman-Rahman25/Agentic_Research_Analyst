@@ -751,7 +751,29 @@ else:
     if show_trace:
         st.markdown(render_trace_html(results), unsafe_allow_html=True)
 
+    # --- Report card ---
+    # Rendered BEFORE findings: the report is the thesis-style summary readers
+    # actually want. Findings below are supporting evidence for anyone who wants
+    # to verify individual citations.
+    # Single download button lives at the top of the page (see near top of main()).
+    if report_md:
+        # Report header label (no button - keeping only the top-of-page download)
+        st.markdown(
+            """<div class="label-uc" style="margin-top: 10px; margin-bottom: 4px;">
+<i class="ti ti-file-text" style="font-size: 13px; color: #FF5C39;"></i>Research report
+</div>""",
+            unsafe_allow_html=True,
+        )
+
+        st.markdown('<div class="bento report-body" style="padding: 18px 22px;">', unsafe_allow_html=True)
+        st.markdown(report_md, unsafe_allow_html=False)
+        st.markdown("</div>", unsafe_allow_html=True)
+        st.markdown('<div style="margin-bottom: 14px;"></div>', unsafe_allow_html=True)
+
     # --- Findings with view-more pattern ---
+    # Rendered AFTER the report - these are the raw extracted findings the
+    # report cites. Recruiter can skim the report first, then verify claims
+    # against source quotes below if they want.
     if show_findings and findings:
         show_all_findings = st.session_state.get("show_all_findings", False)
         st.markdown(
@@ -780,32 +802,6 @@ else:
                     ):
                         st.session_state["show_all_findings"] = True
                         st.rerun()
-
-    # --- Report card with secondary download button ---
-    if report_md:
-        # Report header with inline download (smaller, outlined)
-        rep_col1, rep_col2 = st.columns([5, 1])
-        with rep_col1:
-            st.markdown(
-                """<div class="label-uc" style="margin-top: 10px; margin-bottom: 4px;">
-<i class="ti ti-file-text" style="font-size: 13px; color: #FF5C39;"></i>Research report
-</div>""",
-                unsafe_allow_html=True,
-            )
-        with rep_col2:
-            st.download_button(
-                "⬇  Download .md",
-                data=report_md,
-                file_name=f"{slugify(user_query)}.md",
-                mime="text/markdown",
-                key="dl_in_report",
-                use_container_width=True,
-            )
-
-        st.markdown('<div class="bento report-body" style="padding: 18px 22px;">', unsafe_allow_html=True)
-        st.markdown(report_md, unsafe_allow_html=False)
-        st.markdown("</div>", unsafe_allow_html=True)
-        st.markdown('<div style="margin-bottom: 14px;"></div>', unsafe_allow_html=True)
 
     # --- Verification section ---
     if isinstance(verification, VerificationResult):
